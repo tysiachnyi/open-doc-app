@@ -4,6 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
+import { Nagivation } from "../../types/Layout.types";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -12,13 +13,58 @@ function classNames(...classes: string[]) {
 function Layout() {
   const auth = new Cookies().get("TOKEN");
 
-  const navigation = [
+  const navigation: Nagivation[] = [
     { name: "Home", link: ROUTES.HOME, current: false, auth: false },
     { name: "About", link: ROUTES.ABOUT, current: false, auth: false },
-    { name: "Auth", link: "/auth", current: false, auth: true },
-    { name: "Register", link: ROUTES.REGISTER, current: false, auth: false },
-    { name: "Login", link: ROUTES.LOGIN, current: false, auth: false },
+    {
+      name: "Register",
+      link: ROUTES.REGISTER,
+      current: false,
+      auth: false,
+      hideAfterAuth: true,
+    },
+    {
+      name: "Login",
+      link: ROUTES.LOGIN,
+      current: false,
+      auth: false,
+      hideAfterAuth: true,
+    },
+    {
+      name: "View Documentation",
+      link: ROUTES.VIEW_DOCUMENTATION,
+      current: false,
+      auth: true,
+    },
+    {
+      name: "Create Documentation",
+      link: ROUTES.CREATE_DOCUMENTATION,
+      current: false,
+      auth: true,
+    },
   ];
+
+  const navigationLogick = (item: Nagivation) => {
+    if (item.auth && !auth) {
+      return null;
+    }
+    if (item.hideAfterAuth && auth) {
+      return null;
+    }
+    return (
+      <Link
+        key={item.name}
+        to={item.link}
+        className={
+          "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+        }
+      >
+        {item.name}
+      </Link>
+    );
+  };
+
+  const authNavigation = [];
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -27,28 +73,11 @@ function Layout() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <img
-                    className="h-8 w-8"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                    alt="Workflow"
-                  />
-                </div>
+                <div className="flex-shrink-0 text-white">OPEN DOC</div>
+
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item) =>
-                      item.auth && !auth ? null : (
-                        <Link
-                          key={item.name}
-                          to={item.link}
-                          className={
-                            "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                          }
-                        >
-                          {item.name}
-                        </Link>
-                      )
-                    )}
+                    {navigation.map((item) => navigationLogick(item))}
                   </div>
                 </div>
               </div>
