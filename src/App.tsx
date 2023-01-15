@@ -9,6 +9,8 @@ import Login from "./routes/Login/Login";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import ViewDocumentation from "./routes/ViewDocumentation/ViewDocumentation";
 import CreateDocumentation from "./routes/CreateDocumentation/CreateDocumentation";
+import ListProjects from "./routes/ListProjects/ListProjects";
+import CreateProject from "./routes/CreateProject/CreateProject";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path={ROUTES.ABOUT} element={<About />} />
         {/* Protected Routes START */}
         <Route element={<ProtectedRoutes />}>
+          <Route path={ROUTES.LIST_PROJECTS} element={<ListProjects />} />
+          <Route path={ROUTES.CREATE_PROJECT} element={<CreateProject />} />
           <Route
             path={ROUTES.VIEW_DOCUMENTATION}
             element={<ViewDocumentation />}

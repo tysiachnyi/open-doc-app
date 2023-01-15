@@ -7,4 +7,6 @@ export const ROUTES = {
   CONTACT: "/contact",
   VIEW_DOCUMENTATION: "/view-documentation",
   CREATE_DOCUMENTATION: "/create-documentation",
+  LIST_PROJECTS: "/list-projects",
+  CREATE_PROJECT: "/create-project",
 };

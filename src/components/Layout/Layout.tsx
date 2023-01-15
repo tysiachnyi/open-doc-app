@@ -1,16 +1,18 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import { DocumentReportIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { Nagivation } from "../../types/Layout.types";
+import Button from "../Buttons/Button";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 function Layout() {
+  const navigate = useNavigate();
   const auth = new Cookies().get("TOKEN");
 
   const navigation: Nagivation[] = [
@@ -31,17 +33,17 @@ function Layout() {
       hideAfterAuth: true,
     },
     {
-      name: "View Documentation",
-      link: ROUTES.VIEW_DOCUMENTATION,
+      name: "Projects",
+      link: ROUTES.LIST_PROJECTS,
       current: false,
       auth: true,
     },
-    {
-      name: "Create Documentation",
-      link: ROUTES.CREATE_DOCUMENTATION,
-      current: false,
-      auth: true,
-    },
+    // {
+    //   name: "Create Documentation",
+    //   link: ROUTES.CREATE_DOCUMENTATION,
+    //   current: false,
+    //   auth: true,
+    // },
   ];
 
   const navigationLogick = (item: Nagivation) => {
@@ -64,7 +66,6 @@ function Layout() {
     );
   };
 
-  const authNavigation = [];
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -78,6 +79,15 @@ function Layout() {
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
                     {navigation.map((item) => navigationLogick(item))}
+                    {auth && (
+                      <Button
+                        text="Create Project"
+                        theme="primary"
+                        onClick={() => {
+                          navigate(ROUTES.CREATE_PROJECT);
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

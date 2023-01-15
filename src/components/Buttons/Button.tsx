@@ -3,9 +3,10 @@ import { FC } from "react";
 type ButtonProps = {
   text: string;
   theme: "primary" | "secondary" | "danger";
+  onClick?: () => void;
 };
 
-const Button: FC<ButtonProps> = ({ text, theme }) => {
+const Button: FC<ButtonProps> = ({ text, theme, onClick }) => {
   // TailwindCss button component
 
   const buttonTheme = {
@@ -17,7 +18,11 @@ const Button: FC<ButtonProps> = ({ text, theme }) => {
       "bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded",
   };
 
-  return <button className={buttonTheme[theme]}>{text}</button>;
+  return (
+    <button onClick={onClick} className={buttonTheme[theme]}>
+      {text}
+    </button>
+  );
 };
 
 export default Button;

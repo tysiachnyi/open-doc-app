@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import Cookies from "universal-cookie";
+import { fetchService } from "../../utils/AxiosInterceptor";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ const Login = () => {
     const cookies = new Cookies();
     const configuration = {
       method: "post",
-      url: "http://localhost:7777/api/auth/login",
+      url: "auth/login",
       data: {
         email,
         password,
@@ -21,7 +21,10 @@ const Login = () => {
     };
     try {
       e.preventDefault();
-      const { data } = await axios(configuration);
+      const { data } = await fetchService.post("auth/login", {
+        email,
+        password,
+      });
       cookies.set("TOKEN", data.token, {
         path: "/",
       });
