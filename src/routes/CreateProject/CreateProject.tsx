@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Button from "../../components/Buttons/Button";
+import { fetchService } from "../../utils/AxiosInterceptor";
 
 const CreateProject = () => {
+  const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -29,13 +31,38 @@ const CreateProject = () => {
     }
 
     if (formData.title && formData.description) {
-      console.log("Create project");
+      fetchService
+        .post("/project/create", {
+          title: formData.title,
+          description: formData.description,
+          type: formData.type,
+          authorId: JSON.parse(window.localStorage.getItem("user") || "{}").id,
+        })
+        .then((res) => {
+          console.log(res);
+          setSuccess(true);
+        });
     }
   };
 
   return (
     <div>
       <h1 className="text-center">Create Project</h1>
+
+      {/* tailwindcss succes message */}
+      {success && (
+        <div className="flex justify-center">
+          <div
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
+            <span className="block sm:inline">
+              Project created successfully
+            </span>
+            <span className="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
+          </div>
+        </div>
+      )}
 
       <div className="p-4">
         {/* Input with label */}
@@ -48,6 +75,7 @@ const CreateProject = () => {
           </div>
 
           <input
+            maxLength={30}
             value={formData.title}
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
@@ -70,7 +98,7 @@ const CreateProject = () => {
               </p>
             )}
           </div>
-          <textarea
+          <input
             value={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
@@ -80,8 +108,9 @@ const CreateProject = () => {
                 ? "p-2 border border-red-500 rounded"
                 : "p-2 border rounded"
             }
-            id="title"
-            placeholder="Title"
+            maxLength={50}
+            id="description"
+            placeholder="Description"
           />
 
           <label htmlFor="title">Type</label>
@@ -92,8 +121,8 @@ const CreateProject = () => {
             id="title"
             placeholder="Title"
           >
-            <option value="front_end">Front-End</option>
-            <option value="back_end">Back-End</option>
+            <option value="front_end">Front End</option>
+            <option value="back_end">Back End</option>
           </select>
         </div>
         <div className="flex justify-center p-4">
