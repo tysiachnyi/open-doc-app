@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { typeNames } from "../../constants/project";
+import { ROUTES } from "../../constants/routes";
 import { fetchService } from "../../utils/AxiosInterceptor";
 
 type Projects = {
@@ -14,6 +16,7 @@ type Projects = {
 const ListProjects = () => {
   const [projects, setProjects] = useState<Projects[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchService
@@ -37,7 +40,13 @@ const ListProjects = () => {
   const listOfProjects = () => {
     if (projects) {
       return projects.map((project) => (
-        <tr key={project._id}>
+        <tr
+          className="cursor-pointer"
+          key={project._id}
+          onClick={() => {
+            navigate(`${ROUTES.VIEW_PROJECT}/${project._id}`);
+          }}
+        >
           <td id="title" className="px-6 py-4 whitespace-nowrap">
             <div className="flex items-center">
               <div>

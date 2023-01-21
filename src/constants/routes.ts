@@ -9,4 +9,5 @@ export const ROUTES = {
   CREATE_DOCUMENTATION: "/create-documentation",
   LIST_PROJECTS: "/list-projects",
   CREATE_PROJECT: "/create-project",
+  VIEW_PROJECT: "/project",
 };

@@ -11,6 +11,7 @@ import ViewDocumentation from "./routes/ViewDocumentation/ViewDocumentation";
 import CreateDocumentation from "./routes/CreateDocumentation/CreateDocumentation";
 import ListProjects from "./routes/ListProjects/ListProjects";
 import CreateProject from "./routes/CreateProject/CreateProject";
+import ViewProject from "./routes/ViewProject/ViewProject";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path={ROUTES.LIST_PROJECTS} element={<ListProjects />} />
           <Route path={ROUTES.CREATE_PROJECT} element={<CreateProject />} />
+          <Route
+            path={`${ROUTES.VIEW_PROJECT}/:id`}
+            element={<ViewProject />}
+          />
           <Route
             path={ROUTES.VIEW_DOCUMENTATION}
             element={<ViewDocumentation />}
