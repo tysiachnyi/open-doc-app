@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import { LoginResponse } from "../../types/response.types";
+import { fetchService } from "../../utils/AxiosInterceptor";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -10,20 +12,15 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const configuration = {
-      method: "post",
-      url: "http://localhost:7777/api/auth/register",
-      data: {
+    try {
+      e.preventDefault();
+
+      await fetchService.post("auth/register", {
         email,
         name,
         password,
-      },
-    };
-    try {
-      e.preventDefault();
-      const { data } = await axios(configuration);
+      });
       setRegister(true);
-      console.log({ data });
     } catch (error) {
       console.log(error);
     }

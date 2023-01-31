@@ -28,7 +28,7 @@ const ViewProject = () => {
         setLoading(false);
       }
     }
-  });
+  }, []);
 
   const handleCreateDocumentation = () => {
     navigate(ROUTES.CREATE_DOCUMENTATION);

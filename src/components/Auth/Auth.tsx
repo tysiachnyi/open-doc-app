@@ -3,13 +3,13 @@ import { fetchService } from "../../utils/AxiosInterceptor";
 
 export default function Auth() {
   const [message, setMessage] = useState("");
-
+  const url = import.meta.env.VITE_API_URL;
   // useEffect automatically executes once the page is fully loaded
   useEffect(() => {
     // set configurations for the API call here
     const configuration = {
       method: "get",
-      url: "http://localhost:7777/api/auth-endpoint",
+      url: url + "auth-endpoint",
     };
 
     // make the API call
